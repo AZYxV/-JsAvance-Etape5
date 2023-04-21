@@ -4,6 +4,7 @@ const path = require('path'); // Ajout de l'importation du module path
 const port = 3000;
 const os = require('os');
 const fs = require('fs');
+const e = require("express");
 
 const staticFilesPath = path.join(__dirname, 'front');
 
@@ -69,6 +70,35 @@ app.get('/api/drive/*', async (req, res) => {
 
     }
 });
+
+app.post('/api/drive', (req, res) => {
+
+    const name = req.query.name;
+
+    if (!name)
+    {
+        return res.status(400).json({ error: 'Le paramètre "name" est requis' });
+    }
+
+    if (!/^[a-zA-Z0-9]+$/.test(name)) {
+        return res.status(400).json({ error: 'Le paramètre "name" ne doit contenir que des caractères alphanumériques' });
+    }
+
+    const folderDir = `${tmpDir}/${name}`;
+
+    if (fs.existsSync(folderDir)) {
+        return res.status(409).json({ error: 'Le dossier existe déjà' });
+    }
+
+    fs.mkdir(folderDir, {recursive: true}, (err) => {
+        if (err)
+        {
+            return res.status(500).json({ error: 'Impossible de créer le dossier' });
+        }
+        res.json({ message: `Dossier créé avec succès : ${folderDir}` });
+    });
+});
+
 
 app.listen(port, () => {
     console.log(`Port: ${port}`);
