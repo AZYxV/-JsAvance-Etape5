@@ -9,6 +9,7 @@
   "author": "Nathan Sichouc",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-busboy": "^9.0.0"
   }
 }
