@@ -2,9 +2,9 @@
   "name": "alps-drive",
   "version": "1.0.0",
   "description": "etape5-jsavance",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon main.js"
+    "dev": "nodemon server.js"
   },
   "author": "Nathan Sichouc",
   "license": "ISC",

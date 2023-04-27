@@ -16,34 +16,6 @@ const tmpDir = os.tmpdir();
 
 const upload = multer({ dest: `${tmpDir}` }); // Définir le dossier de destination pour les fichiers uploadés
 
-
-app.get('/api/drive', async (req, res) => {
-    try
-    {
-        const getDir = await fs.promises.readdir(tmpDir, {
-            encoding: "utf-8",
-            withFileTypes: true
-        });
-
-        const items = await Promise.all(getDir.map(async (element) => {
-            const itemPath = path.join(tmpDir, element.name);
-            const stats = await fs.promises.stat(itemPath);
-            return {
-                name: element.name,
-                size: stats.size,
-                isFolder: element.isDirectory(),
-            }
-        }));
-
-        res.json(items);
-    }
-    catch (error)
-    {
-        console.error("Erreur lors de la lecture du dossier :", error);
-        res.status(500).json({ message: "Erreur lors de la lecture du dossier" });
-    }
-});
-
 app.get('/api/drive/*', async (req, res) => {
 
     const params = req.params[0].split('/');
